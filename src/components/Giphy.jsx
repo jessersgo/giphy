@@ -5,8 +5,8 @@ const Giphy = () =>{
     //create hooks for search
     const [search, setSearch] = useState('');
     const[gifs, setGifs] = useState([]);
-    // const [results, setResults] = useState('');
     const[isLoading, setIsLoading] = useState(false);
+    const [random, setRandom] = useState('')
 
     //since we want this to be the first thing to appear on the screen we use useeffect
    useEffect(() => {
@@ -31,11 +31,14 @@ const Giphy = () =>{
         }
         return gifs.map( el =>{
             return(
-                <div key = {el.id} className="gif"><img src={el.images.fixed_height.url}/></div>
+                <div key = {el.id} className="gif">
+                    <img src={el.images.fixed_height.url}/>
+                </div>
             )
         })
 
     }
+
 
     const handleSearch = (event) =>{
         setSearch(event.target.value)
@@ -56,14 +59,34 @@ const Giphy = () =>{
            }
     }
 
+    async function handleRand(){ 
+        try { 
+            setIsLoading(true);
+            const result = await axios.get(`https://api.giphy.com/v1/gifs/random?api_key=D90JzoKtYqUs00SOZHkSi3RSYOrntYfq`);
+            setRandom(result.data.data.images.original.url);
+            setIsLoading(false);
+        } catch (error) {
+             console.error(error); alert("something went wrong :("); } 
+        }
+
 
     //return render
     return(
         <>
+        <div>
+            <h1>Welcome to the Giphy api Finder :3</h1>
         <form>
-           <input onChange= {handleSearch} value = {search} type="text" placeholder="Search" /> 
+           <input onChange= {handleSearch} value = {search} type="text" placeholder="Search for Gifs!" /> 
             <button onClick= {handleSubmit} type="submit">Search!</button>
         </form>
+        </div>
+        <div>
+            <h3>If you don't have anything in mind, heres a Random one for ya :p</h3>
+     {/* Hafeefa helped explain the code below T^T blessing */}
+        {random ?  <img src= {random} alt="randomimage"/> : null}
+        <button onClick={handleRand} type= 'submit'> Go Random! </button>
+
+        </div>
         <div className="gifContainer">{renderGifs()} </div>
         
         </>

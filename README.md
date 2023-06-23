@@ -1,0 +1,2 @@
+# Giphy Api project
+I ran into a lot of problems with this project to the point where I looked at the first one and descided to throw it out the window and start all over again chaning my logic and format so that i can see my mistakes and where exactly i went wrong the first time. For now it is bare bones but i hope to add CSS to style it more later. Thank You for reading :3
